@@ -1,12 +1,13 @@
-from spreadsheet import *
 import numpy as np
-from operator import ixor
 
 
 class Apriori():
     def __init__(self, data):
         self.data = data
         self.treshold = 1 / 2 * len(data[next(iter(data))])
+
+    def apriory(self, data):
+        return self.isRepresentSameThing(self.selectSignificent(self.itemSet(data)))
 
     def frequency(self, data):
         frequency = {}
@@ -52,7 +53,7 @@ class Apriori():
             isContinue = True
             tempSum = sum(bytearray(key.encode('utf8')))
             for l in temp:
-                if sum(bytearray(l.encode('utf8')))==tempSum:
+                if sum(bytearray(l.encode('utf8'))) == tempSum:
                     isContinue = False
             if isContinue:
                 temp[key] = data[key]
@@ -68,9 +69,20 @@ class Apriori():
         return temp
 
     def search(self, *args):
-        temp = []
-        isContinue = True
         temp = np.ones(len(self.data[next(iter(self.data))]))
         for key in args:
             temp = self.listXor(self.data[key], temp)
         return temp
+
+
+if __name__ == '__main__':
+    testData = {
+        'apple': [1, 1, 0, 1],
+        'pinapple': [0, 1, 1, 1],
+        'pair': [0, 0, 0, 1],
+        'melon': [1, 0, 0, 1],
+        'cherry': [1, 0, 1, 1]
+    }
+    test = Apriori(testData)
+    print(test.apriory(testData))
+    print(test.apriory(test.apriory(testData)))
