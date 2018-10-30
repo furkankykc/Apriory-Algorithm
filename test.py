@@ -1,7 +1,5 @@
+from apriory import Apriori
 from spreadsheet import *
-from apriori import Apriori
-
-
 
 data = getFromXml('menu.xlsx')
 a = Apriori(data)
